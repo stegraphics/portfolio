@@ -4,7 +4,36 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Presentation = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const totalSlides = 9;
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Responsive container style
+  const containerStyle = {
+    height: isMobile ? '100%' : '100vh',
+    maxHeight: isMobile ? 'none' : '100dvh',
+    aspectRatio: isMobile ? 'auto' : '16/9',
+    margin: '0 auto',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  };
+
+  // Mobile-specific styles
+  const mobileStyle = isMobile ? {
+    width: '100%',
+    padding: '2rem 1rem',
+    minHeight: '100vh'
+  } : {};
 
   // Auto-advance slides
   useEffect(() => {
@@ -61,7 +90,7 @@ const Presentation = () => {
       title: "Concept: showroom di illuminazione a Singapore",
       subtitle: "Presentazione animata sulla possibilità di apertura di uno showroom di design di illuminazione a Singapore",
       visual: (
-        <motion.div className="relative w-full h-full">
+        <motion.div className="relative w-full h-full min-h-[500px] md:min-h-0 overflow-hidden" style={{...containerStyle, ...mobileStyle}}>
           {/* Background gradient */}
           <motion.div 
             className="absolute inset-0 overflow-hidden bg-black"
@@ -106,9 +135,9 @@ const Presentation = () => {
           </motion.div>
           
           {/* Main title with animation */}
-          <motion.div className="absolute inset-0 flex flex-col items-center justify-center text-center p-8">
+          <motion.div className="absolute inset-0 flex flex-col items-center justify-center -translate-y-24 text-center p-8">
             <motion.h1 
-              className="text-5xl md:text-7xl font-bold mb-6 text-white"
+              className="text-4xl sm:text-5xl md:text-7xl font-bold mb-6 text-white"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 1 }}
@@ -155,7 +184,7 @@ const Presentation = () => {
             </motion.h1>
             
             <motion.p 
-              className="text-xl md:text-2xl text-white max-w-2xl"
+              className="text-lg sm:text-xl md:text-2xl text-white max-w-2xl px-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.5, duration: 1 }}

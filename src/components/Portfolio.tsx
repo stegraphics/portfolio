@@ -6,6 +6,8 @@ import Presentation from './Presentation';
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [showPresentation, setShowPresentation] = useState(false);
+  const [showSubcategories, setShowSubcategories] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const { t } = useLanguage();
   const { activeCategory, setActiveCategory } = useCategory();
 
@@ -13,7 +15,7 @@ const Portfolio = () => {
     { id: 'all', name: t('portfolio', 'allProjects'), icon: '🎨' },
     { id: 'interior', name: t('portfolio', 'interior'), icon: '🛋️' },
     { id: 'food', name: t('portfolio', 'food'), icon: '🍕' },
-    { id: 'branding', name: t('portfolio', 'branding'), icon: '🛍️' },
+    { id: 'branding', name: t('portfolio', 'branding'), icon: '🎨' },
     { id: 'banners', name: t('portfolio', 'banners'), icon: '🎯' },
     { id: 'presentations', name: t('portfolio', 'presentations'), icon: '📊' }
   ];
@@ -93,7 +95,7 @@ const Portfolio = () => {
     {
       id: 5,
       title: "Velvet Buns",
-      category: "food",
+      categories: ["food", "branding"],
       images: [
         {
           url: "/images/logo velvet buns.jpeg",
@@ -111,7 +113,7 @@ const Portfolio = () => {
       description: "Logo design per hamburgeria gourmet"
     },
     {
-      id: 5,
+      id: 6,
       title: "Bellachioma Hair",
       category: "branding",
       images: [
@@ -127,7 +129,7 @@ const Portfolio = () => {
       description: "Brand identity per salone di bellezza"
     },
     {
-      id: 6,
+      id: 7,
       title: "Banner Pubblicitari",
       category: "banners",
       images: [
@@ -154,7 +156,11 @@ const Portfolio = () => {
 
   const filteredProjects = activeCategory === 'all' 
     ? projects 
-    : projects.filter(project => project.category === activeCategory);
+    : projects.filter(project => 
+        project.categories 
+          ? project.categories.includes(activeCategory)
+          : project.category === activeCategory
+      );
 
   return (
     <section id="portfolio" className="py-20 bg-[#010d2c] relative">
@@ -175,7 +181,14 @@ const Portfolio = () => {
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() => {
+                setActiveCategory(category.id);
+                if (category.id === 'branding') {
+                  setShowSubcategories(true);
+                } else {
+                  setShowSubcategories(false);
+                }
+              }}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
                 activeCategory === category.id
                   ? 'bg-[#c0ff00] text-[#010d2c] shadow-[0_0_20px_#c0ff00]'
@@ -187,6 +200,29 @@ const Portfolio = () => {
             </button>
           ))}
         </div>
+
+        {/* Subcategories for Branding */}
+        {showSubcategories && activeCategory === 'branding' && (
+          <div className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
+            <button
+              onClick={() => {
+                // Mostra tutti i progetti di branding
+                setActiveCategory('branding');
+              }}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+            >
+              🎨 Tutti i Loghi
+            </button>
+            <button
+               onClick={() => {
+                 setShowVideoModal(true);
+               }}
+               className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+             >
+               🎬 Logo Animations
+             </button>
+          </div>
+        )}
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -243,6 +279,51 @@ const Portfolio = () => {
             </div>
           </div>
         )}
+
+        {/* Video modal */}
+          {showVideoModal && (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4">
+              <div className="relative w-full max-w-4xl mx-auto">
+                <div className="text-center">
+                   <div className="flex justify-between items-center mb-4">
+                     <h3 className="text-2xl font-bold text-white">🎬 Logo Animations</h3>
+                     <button
+                       onClick={() => setShowVideoModal(false)}
+                       className="text-white text-2xl font-bold hover:text-gray-300 transition-colors"
+                     >
+                       ✕
+                     </button>
+                   </div>
+                   <div className="relative bg-black overflow-hidden min-h-[400px] flex items-center justify-center">
+                     <video 
+                         controls 
+                         autoPlay 
+                         muted
+                         playsInline
+                         controlsList="nodownload"
+                         className="w-full h-auto max-h-[60vh]"
+                         src="./images/IMG_2048.mp4"
+                         onError={(e) => {
+                           console.log('Errore video:', e);
+                           e.target.style.display = 'none';
+                           e.target.nextElementSibling.style.display = 'block';
+                         }}
+                       >
+                         <source src="./images/IMG_2048.mp4" type="video/mp4" />
+                      </video>
+                      <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-white">
+                        <div className="text-6xl mb-4">🎬</div>
+                        <h4 className="text-xl font-semibold mb-2">Video non disponibile</h4>
+                        <p className="text-gray-300 text-center max-w-md">
+                          Il file video potrebbe non essere compatibile con il browser.<br/>
+                          Contatta per visualizzare le animazioni dei loghi.
+                        </p>
+                      </div>
+                   </div>
+                 </div>
+              </div>
+            </div>
+          )}
         
         {/* Regular project modal */}
         {selectedProject && (
