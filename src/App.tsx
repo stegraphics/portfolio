@@ -61,6 +61,7 @@ const translations: Translations = {
       food: 'Ristorazione & Food',
       branding: 'Loghi & Branding',
       banners: 'Banner Pubblicitari',
+      websites: 'Siti Web',
       viewProject: 'Visualizza Progetto'
     },
     services: {
@@ -121,6 +122,7 @@ const translations: Translations = {
       food: 'Restaurant & Food',
       branding: 'Logo & Branding',
       banners: 'Advertising Banners',
+      websites: 'Websites',
       viewProject: 'View Project'
     },
     services: {
@@ -181,6 +183,7 @@ const translations: Translations = {
       food: 'Restauración & Alimentación',
       branding: 'Logo & Marca',
       banners: 'Banners Publicitarios',
+      websites: 'Sitios Web',
       viewProject: 'Ver Proyecto'
     },
     services: {
@@ -241,6 +244,7 @@ const translations: Translations = {
       food: 'Restaurant & Gastronomie',
       branding: 'Logo & Markenbildung',
       banners: 'Werbebanner',
+      websites: 'Websites',
       viewProject: 'Projekt ansehen'
     },
     services: {
@@ -301,6 +305,7 @@ const translations: Translations = {
       food: 'Restaurant & Gastronomie',
       branding: 'Logo & Image de Marque',
       banners: 'Bannières Publicitaires',
+      websites: 'Sites Web',
       viewProject: 'Voir le Projet'
     },
     services: {

@@ -17,6 +17,7 @@ const Portfolio = () => {
     { id: 'food', name: t('portfolio', 'food'), icon: '🍕' },
     { id: 'branding', name: t('portfolio', 'branding'), icon: '🎨' },
     { id: 'banners', name: t('portfolio', 'banners'), icon: '🎯' },
+    { id: 'websites', name: t('portfolio', 'websites'), icon: '🌐' },
     { id: 'presentations', name: t('portfolio', 'presentations'), icon: '📊' }
   ];
 
@@ -151,6 +152,18 @@ const Portfolio = () => {
         }
       ],
       description: "Collezione di banner pubblicitari per diversi settori e attività"
+    },
+    {
+      id: 8,
+      title: "EDIL GAMAL",
+      category: "websites",
+      images: [
+        {
+          url: "/images/x mio sito.jpg",
+          description: "Sito web per EDIL GAMAL - Ditta edile con oltre 35 anni di esperienza in Lombardia"
+        }
+      ],
+      description: "Sito web professionale per EDIL GAMAL, ditta edile che opera in Lombardia da oltre 35 anni, specializzata in costruzioni e ristrutturazioni"
     }
   ];
 
@@ -335,11 +348,25 @@ const Portfolio = () => {
                     {selectedProject.images.map((image, index) => (
                       <div key={index} className="flex-shrink-0 w-full snap-center">
                         <div className="relative flex flex-col items-center justify-center p-4">
-                          <div className="w-full max-w-4xl mx-auto">
+                          {/* Pulsante SCOPRI sopra l'immagine per EDIL GAMAL */}
+                          {selectedProject.title === "EDIL GAMAL" && (
+                            <div className="w-full max-w-4xl mx-auto mb-4 flex justify-center">
+                               <a
+                                  href="https://www.edilgamal.it/"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="bg-[#c0ff00] text-[#010d2c] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#a8e600] transition-all duration-300 transform hover:scale-105 border-0 outline-none shadow-[0_0_15px_rgba(192,255,0,0.4)] hover:shadow-[0_0_25px_rgba(192,255,0,0.6)]"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  🌐 SCOPRI IL SITO
+                                </a>
+                             </div>
+                          )}
+                          <div className="w-full max-w-4xl mx-auto relative">
                             <img
                               src={image.url}
                               alt={selectedProject.title}
-                              className="w-full h-[60vh] object-contain"
+                              className="w-full h-[60vh] object-contain mx-auto rounded-lg"
                             />
                           </div>
                           <div className="w-full mt-4 max-w-4xl mx-auto">
@@ -354,13 +381,27 @@ const Portfolio = () => {
                 </div>
               ) : (
                 <div className="relative flex flex-col items-center justify-center p-4">
-                  <div className="w-full max-w-4xl mx-auto">
-                    <img
-                      src={selectedProject.image}
-                      alt={selectedProject.title}
-                      className="w-full h-[60vh] object-contain"
-                    />
-                  </div>
+                  {/* Pulsante SCOPRI sopra l'immagine per EDIL GAMAL */}
+                  {selectedProject.title === "EDIL GAMAL" && (
+                    <div className="w-full max-w-4xl mx-auto mb-4 flex justify-center">
+                       <a
+                          href="https://www.edilgamal.it/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="bg-[#c0ff00] text-[#010d2c] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#a8e600] transition-all duration-300 transform hover:scale-105 border-0 outline-none shadow-[0_0_15px_rgba(192,255,0,0.4)] hover:shadow-[0_0_25px_rgba(192,255,0,0.6)]"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          🌐 SCOPRI IL SITO
+                        </a>
+                     </div>
+                  )}
+                  <div className="w-full max-w-4xl mx-auto relative">
+                     <img
+                        src={selectedProject.image}
+                        alt={selectedProject.title}
+                        className="w-full h-[60vh] object-contain mx-auto rounded-lg"
+                      />
+                   </div>
                   <div className="w-full mt-4 max-w-4xl mx-auto">
                     <h3 className="text-3xl font-bold text-white mb-4 text-center">{selectedProject.title}</h3>
                     <p className="text-gray-300 text-lg leading-relaxed text-center">
