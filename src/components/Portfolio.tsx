@@ -123,11 +123,35 @@ const Portfolio = () => {
           description: "Logo di Bellachioma Hair"
         },
         {
-          url: "/images/bella chioma.jpg",
-          description: "Applicazione del brand Bellachioma Hair"
+          url: "/images/1.jpg",
+          description: "Bellachioma Hair - Servizi di styling"
+        },
+        {
+          url: "/images/2.jpg",
+          description: "Bellachioma Hair - Trattamenti professionali"
+        },
+        {
+          url: "/images/3.jpg",
+          description: "Bellachioma Hair - Colorazioni personalizzate"
+        },
+        {
+          url: "/images/4.jpg",
+          description: "Bellachioma Hair - Acconciature speciali"
+        },
+        {
+          url: "/images/5.jpeg",
+          description: "Bellachioma Hair - Cura dei capelli"
+        },
+        {
+          url: "/images/6.jpeg",
+          description: "Bellachioma Hair - Prodotti professionali"
+        },
+        {
+          url: "/images/modella.jpg",
+          description: "Bellachioma Hair - Risultati su modella"
         }
       ],
-      description: "Brand identity per salone di bellezza"
+      description: "Brand identity per salone di bellezza e portfolio completo dei servizi offerti"
     },
     {
       id: 7,
@@ -348,32 +372,20 @@ const Portfolio = () => {
                     {selectedProject.images.map((image, index) => (
                       <div key={index} className="flex-shrink-0 w-full snap-center">
                         <div className="relative flex flex-col items-center justify-center p-4">
-                          {/* Pulsante SCOPRI sopra l'immagine per EDIL GAMAL */}
-                          {selectedProject.title === "EDIL GAMAL" && (
-                            <div className="w-full max-w-4xl mx-auto mb-4 flex justify-center">
-                               <a
-                                  href="https://www.edilgamal.it/"
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="bg-[#c0ff00] text-[#010d2c] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#a8e600] transition-all duration-300 transform hover:scale-105 border-0 outline-none shadow-[0_0_15px_rgba(192,255,0,0.4)] hover:shadow-[0_0_25px_rgba(192,255,0,0.6)]"
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  🌐 SCOPRI IL SITO
-                                </a>
-                             </div>
-                          )}
-                          <div className="w-full max-w-4xl mx-auto relative">
+                          <div className="w-full max-w-4xl mx-auto">
                             <img
                               src={image.url}
                               alt={selectedProject.title}
-                              className="w-full h-[60vh] object-contain mx-auto rounded-lg"
+                              className="w-full h-[60vh] object-contain"
                             />
                           </div>
-                          <div className="w-full mt-4 max-w-4xl mx-auto">
-                            <p className="text-gray-300 text-lg leading-relaxed text-center">
-                              {image.description}
-                            </p>
-                          </div>
+                          {index === 0 && (
+                            <div className="w-full mt-4 max-w-4xl mx-auto">
+                              <p className="text-gray-300 text-lg leading-relaxed text-center">
+                                {image.description}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
@@ -381,27 +393,13 @@ const Portfolio = () => {
                 </div>
               ) : (
                 <div className="relative flex flex-col items-center justify-center p-4">
-                  {/* Pulsante SCOPRI sopra l'immagine per EDIL GAMAL */}
-                  {selectedProject.title === "EDIL GAMAL" && (
-                    <div className="w-full max-w-4xl mx-auto mb-4 flex justify-center">
-                       <a
-                          href="https://www.edilgamal.it/"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-[#c0ff00] text-[#010d2c] px-8 py-4 rounded-full font-bold text-xl hover:bg-[#a8e600] transition-all duration-300 transform hover:scale-105 border-0 outline-none shadow-[0_0_15px_rgba(192,255,0,0.4)] hover:shadow-[0_0_25px_rgba(192,255,0,0.6)]"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          🌐 SCOPRI IL SITO
-                        </a>
-                     </div>
-                  )}
-                  <div className="w-full max-w-4xl mx-auto relative">
-                     <img
-                        src={selectedProject.image}
-                        alt={selectedProject.title}
-                        className="w-full h-[60vh] object-contain mx-auto rounded-lg"
-                      />
-                   </div>
+                  <div className="w-full max-w-4xl mx-auto">
+                    <img
+                      src={selectedProject.image}
+                      alt={selectedProject.title}
+                      className="w-full h-[60vh] object-contain"
+                    />
+                  </div>
                   <div className="w-full mt-4 max-w-4xl mx-auto">
                     <h3 className="text-3xl font-bold text-white mb-4 text-center">{selectedProject.title}</h3>
                     <p className="text-gray-300 text-lg leading-relaxed text-center">
