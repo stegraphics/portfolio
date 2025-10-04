@@ -32,7 +32,7 @@ const Hero = () => {
             <div className="text-xl md:text-2xl text-white mb-8 font-light">
               {(t('hero', 'roles') as string[]).map((role, index) => (
                 <React.Fragment key={role}>
-                  <span className={`typewriter ${index > 0 ? `delay-${index}000` : ''}`}>{role}</span>
+                  <span className="animate-fade-in" style={{ animationDelay: `${index}s` }}>{role}</span>
                   {index < 2 && <span className="text-[#c0ff00] mx-4">|</span>}
                 </React.Fragment>
               ))}

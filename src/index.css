@@ -3,6 +3,76 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .animate-typewriter {
+  overflow: hidden;
+  animation: typewriter 4s steps(80, end);
+}
+  
+  .animate-fade-in-right {
+    animation: fadeInRight 2s ease-out 0s both;
+  }
+  
+  /* Hide scrollbar utility */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+
+  /* Marquee utility for slow continuous scroll */
+  .marquee-track {
+    animation: marquee 18s linear infinite;
+    will-change: transform;
+  }
+}
+
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -26,7 +96,7 @@ body {
   }
 }
 
-@keyframes typewriter {
+@keyframes typewriter-old {
   from {
     opacity: 0;
     transform: translateX(-20px);
@@ -69,6 +139,17 @@ body {
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
@@ -95,6 +176,10 @@ body {
   text-shadow: 
     0 0 5px #c0ff00,
     0 0 10px #c0ff00;
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s ease-out forwards;
 }
 
 /* Smooth scrolling */
@@ -175,5 +260,17 @@ html {
     text-shadow: 
       0 0 3px #c0ff00,
       0 0 6px #c0ff00;
+  }
+}
+
+/* Animazioni 3D di rotazione per transizioni tra immagini */
+@keyframes rotateIn3D {
+  from {
+    opacity: 0;
+    transform: rotateY(-90deg);
+  }
+  to {
+    opacity: 1;
+    transform: rotateY(0deg);
   }
 }

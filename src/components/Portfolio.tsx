@@ -6,16 +6,17 @@ import Presentation from './Presentation';
 const Portfolio = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [showPresentation, setShowPresentation] = useState(false);
+  const [showSubcategories, setShowSubcategories] = useState(false);
+  const [showVideoModal, setShowVideoModal] = useState(false);
   const { t } = useLanguage();
   const { activeCategory, setActiveCategory } = useCategory();
 
   const categories = [
-    { id: 'all', name: t('portfolio', 'allProjects'), icon: '🎨' },
-    { id: 'interior', name: t('portfolio', 'interior'), icon: '🛋️' },
-    { id: 'food', name: t('portfolio', 'food'), icon: '🍕' },
-    { id: 'branding', name: t('portfolio', 'branding'), icon: '🎨' },
-    { id: 'banners', name: t('portfolio', 'banners'), icon: '🎯' },
-    { id: 'presentations', name: t('portfolio', 'presentations'), icon: '📊' }
+    { id: 'all', name: t('portfolio', 'all'), icon: '🎨' },
+    { id: 'branding', name: t('portfolio', 'branding'), icon: '🏷️' },
+    { id: 'interior', name: t('portfolio', 'interior'), icon: '🏠' },
+    { id: 'food', name: t('portfolio', 'food'), icon: '🍽️' },
+    { id: 'banners', name: t('portfolio', 'banners'), icon: '📢' },
   ];
 
   const projects = [
@@ -120,11 +121,35 @@ const Portfolio = () => {
           description: "Logo di Bellachioma Hair"
         },
         {
-          url: "/images/bella chioma.jpg",
-          description: "Applicazione del brand Bellachioma Hair"
+          url: "/images/1.jpg",
+          description: "Bellachioma Hair - Servizi di styling"
+        },
+        {
+          url: "/images/2.jpg",
+          description: "Bellachioma Hair - Trattamenti professionali"
+        },
+        {
+          url: "/images/3.jpg",
+          description: "Bellachioma Hair - Colorazioni personalizzate"
+        },
+        {
+          url: "/images/4.jpg",
+          description: "Bellachioma Hair - Acconciature speciali"
+        },
+        {
+          url: "/images/5.jpeg",
+          description: "Bellachioma Hair - Cura dei capelli"
+        },
+        {
+          url: "/images/6.jpeg",
+          description: "Bellachioma Hair - Prodotti professionali"
+        },
+        {
+          url: "/images/modella.jpg",
+          description: "Bellachioma Hair - Risultati su modella"
         }
       ],
-      description: "Brand identity per salone di bellezza"
+      description: "Brand identity per salone di bellezza e portfolio completo dei servizi offerti"
     },
     {
       id: 7,
@@ -149,6 +174,18 @@ const Portfolio = () => {
         }
       ],
       description: "Collezione di banner pubblicitari per diversi settori e attività"
+    },
+    {
+      id: 8,
+      title: "EDIL GAMAL",
+      category: "websites",
+      images: [
+        {
+          url: "/images/x mio sito.jpg",
+          description: "Sito web per EDIL GAMAL - Ditta edile con oltre 35 anni di esperienza in Lombardia"
+        }
+      ],
+      description: "Sito web professionale per EDIL GAMAL, ditta edile che opera in Lombardia da oltre 35 anni, specializzata in costruzioni e ristrutturazioni"
     }
   ];
 
@@ -179,7 +216,14 @@ const Portfolio = () => {
           {categories.map((category) => (
             <button
               key={category.id}
-              onClick={() => setActiveCategory(category.id)}
+              onClick={() => {
+                setActiveCategory(category.id);
+                if (category.id === 'branding') {
+                  setShowSubcategories(true);
+                } else {
+                  setShowSubcategories(false);
+                }
+              }}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center gap-2 ${
                 activeCategory === category.id
                   ? 'bg-[#c0ff00] text-[#010d2c] shadow-[0_0_20px_#c0ff00]'
@@ -191,6 +235,29 @@ const Portfolio = () => {
             </button>
           ))}
         </div>
+
+        {/* Subcategories for Branding */}
+        {showSubcategories && activeCategory === 'branding' && (
+          <div className="flex flex-wrap justify-center gap-3 mb-8 animate-fade-in">
+            <button
+              onClick={() => {
+                // Mostra tutti i progetti di branding
+                setActiveCategory('branding');
+              }}
+              className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+            >
+              🎨 Tutti i Loghi
+            </button>
+            <button
+               onClick={() => {
+                 setShowVideoModal(true);
+               }}
+               className="px-4 py-2 rounded-full text-sm font-medium bg-white/10 text-white hover:bg-white/20 transition-all duration-300 flex items-center gap-2"
+             >
+               🎬 Logo Animations
+             </button>
+          </div>
+        )}
 
         {/* Projects grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -247,6 +314,51 @@ const Portfolio = () => {
             </div>
           </div>
         )}
+
+        {/* Video modal */}
+          {showVideoModal && (
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-md z-50 flex items-center justify-center p-4">
+              <div className="relative w-full max-w-4xl mx-auto">
+                <div className="text-center">
+                   <div className="flex justify-between items-center mb-4">
+                     <h3 className="text-2xl font-bold text-white">🎬 Logo Animations</h3>
+                     <button
+                       onClick={() => setShowVideoModal(false)}
+                       className="text-white text-2xl font-bold hover:text-gray-300 transition-colors"
+                     >
+                       ✕
+                     </button>
+                   </div>
+                   <div className="relative bg-black overflow-hidden min-h-[400px] flex items-center justify-center">
+                     <video 
+                         controls 
+                         autoPlay 
+                         muted
+                         playsInline
+                         controlsList="nodownload"
+                         className="w-full h-auto max-h-[60vh]"
+                         src="./images/IMG_2048.mp4"
+                         onError={(e) => {
+                           console.log('Errore video:', e);
+                           e.target.style.display = 'none';
+                           e.target.nextElementSibling.style.display = 'block';
+                         }}
+                       >
+                         <source src="./images/IMG_2048.mp4" type="video/mp4" />
+                      </video>
+                      <div className="hidden absolute inset-0 flex flex-col items-center justify-center text-white">
+                        <div className="text-6xl mb-4">🎬</div>
+                        <h4 className="text-xl font-semibold mb-2">Video non disponibile</h4>
+                        <p className="text-gray-300 text-center max-w-md">
+                          Il file video potrebbe non essere compatibile con il browser.<br/>
+                          Contatta per visualizzare le animazioni dei loghi.
+                        </p>
+                      </div>
+                   </div>
+                 </div>
+              </div>
+            </div>
+          )}
         
         {/* Regular project modal */}
         {selectedProject && (
@@ -265,11 +377,13 @@ const Portfolio = () => {
                               className="w-full h-[60vh] object-contain"
                             />
                           </div>
-                          <div className="w-full mt-4 max-w-4xl mx-auto">
-                            <p className="text-gray-300 text-lg leading-relaxed text-center">
-                              {image.description}
-                            </p>
-                          </div>
+                          {index === 0 && (
+                            <div className="w-full mt-4 max-w-4xl mx-auto">
+                              <p className="text-gray-300 text-lg leading-relaxed text-center">
+                                {image.description}
+                              </p>
+                            </div>
+                          )}
                         </div>
                       </div>
                     ))}
