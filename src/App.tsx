@@ -50,7 +50,13 @@ const translations: Translations = {
     },
     about: {
       title: 'Chi Sono',
-      description: 'Sono un designer e sviluppatore web appassionato di creatività e innovazione. La mia missione è trasformare idee in esperienze digitali uniche e coinvolgenti.'
+      description: 'Sono un designer e sviluppatore web appassionato di creatività e innovazione. La mia missione è trasformare idee in esperienze digitali uniche e coinvolgenti.',
+      bio: {
+        intro: 'Mi chiamo <span class="text-[#b8ff00] font-semibold">Stefano Schifano</span>, sono nato il 10 gennaio 1999 e ho frequentato il Liceo Linguistico G. Parini di Lissone, dove ho studiato inglese, spagnolo e tedesco, conseguendo il livello B1 in tutte e tre le lingue.',
+        passion: 'Sin dall\'adolescenza ho coltivato una forte passione per la grafica: ho iniziato in modo spontaneo a sperimentare con software come <span class="text-[#b8ff00]">Photoshop</span>, <span class="text-[#b8ff00]">Illustrator</span> e <span class="text-[#b8ff00]">InDesign</span>, spinto dalla curiosità e dal desiderio di dare forma alle mie idee. Con il tempo questa inclinazione si è trasformata in una vera e propria competenza professionale, permettendomi di trasformare ciò che inizialmente era un interesse personale in un percorso lavorativo.',
+        work: 'Attualmente gestisco la comunicazione e i social media di due brand: <span class="text-[#b8ff00] font-semibold">Pizza Ok</span> e <span class="text-[#b8ff00] font-semibold">Edilgamal</span>, un\'azienda operante nel settore edile. Oltre alla gestione dei canali social, mi occupo anche dello sviluppo e della cura dei siti web di entrambi i brand, integrando creatività e strategia digitale.',
+        conclusion: 'Oggi considero la grafica e la comunicazione visiva non solo un lavoro, ma anche un mezzo per esprimere creatività e trasmettere messaggi in modo chiaro, moderno ed efficace.'
+      }
     },
     portfolio: {
       title: 'Il Mio Portfolio',
@@ -61,7 +67,6 @@ const translations: Translations = {
       food: 'Ristorazione & Food',
       branding: 'Loghi & Branding',
       banners: 'Banner Pubblicitari',
-      websites: 'Siti Web',
       viewProject: 'Visualizza Progetto'
     },
     services: {
@@ -111,7 +116,13 @@ const translations: Translations = {
     },
     about: {
       title: 'About Me',
-      description: 'I am a designer and web developer passionate about creativity and innovation. My mission is to transform ideas into unique and engaging digital experiences.'
+      description: 'I am a designer and web developer passionate about creativity and innovation. My mission is to transform ideas into unique and engaging digital experiences.',
+      bio: {
+        intro: 'My name is <span class="text-[#b8ff00] font-semibold">Stefano Schifano</span>, I was born on January 10, 1999 and I attended the G. Parini Linguistic High School in Lissone, where I studied English, Spanish and German, achieving B1 level in all three languages.',
+        passion: 'Since adolescence I have cultivated a strong passion for graphics: I started spontaneously experimenting with software like <span class="text-[#b8ff00]">Photoshop</span>, <span class="text-[#b8ff00]">Illustrator</span> and <span class="text-[#b8ff00]">InDesign</span>, driven by curiosity and the desire to give shape to my ideas. Over time this inclination has transformed into a real professional competence, allowing me to transform what was initially a personal interest into a career path.',
+        work: 'I currently manage the communication and social media of two brands: <span class="text-[#b8ff00] font-semibold">Pizza Ok</span> and <span class="text-[#b8ff00] font-semibold">Edilgamal</span>, a company operating in the construction sector. In addition to managing social channels, I also take care of the development and maintenance of the websites of both brands, integrating creativity and digital strategy.',
+        conclusion: 'Today I consider graphics and visual communication not only a job, but also a means to express creativity and transmit messages in a clear, modern and effective way.'
+      }
     },
     portfolio: {
       title: 'My Portfolio',
@@ -122,7 +133,6 @@ const translations: Translations = {
       food: 'Restaurant & Food',
       branding: 'Logo & Branding',
       banners: 'Advertising Banners',
-      websites: 'Websites',
       viewProject: 'View Project'
     },
     services: {
@@ -171,8 +181,14 @@ const translations: Translations = {
       portfolio: 'Ver Portfolio'
     },
     about: {
-      title: 'Sobre Mí',
-      description: 'Soy un diseñador y desarrollador web apasionado por la creatividad y la innovación. Mi misión es transformar ideas en experiencias digitales únicas y cautivadoras.'
+      title: 'Acerca de Mí',
+      description: 'Soy un diseñador y desarrollador web apasionado por la creatividad y la innovación. Mi misión es transformar ideas en experiencias digitales únicas y atractivas.',
+      bio: {
+        intro: 'Mi nombre es <span class="text-[#b8ff00] font-semibold">Stefano Schifano</span>, nací el 10 de enero de 1999 y asistí al Liceo Lingüístico G. Parini de Lissone, donde estudié inglés, español y alemán, alcanzando el nivel B1 en los tres idiomas.',
+        passion: 'Desde la adolescencia he cultivado una fuerte pasión por los gráficos: comencé espontáneamente a experimentar con software como <span class="text-[#b8ff00]">Photoshop</span>, <span class="text-[#b8ff00]">Illustrator</span> e <span class="text-[#b8ff00]">InDesign</span>, impulsado por la curiosidad y el deseo de dar forma a mis ideas. Con el tiempo esta inclinación se ha transformado en una verdadera competencia profesional, permitiéndome transformar lo que inicialmente era un interés personal en una trayectoria profesional.',
+        work: 'Actualmente gestiono la comunicación y las redes sociales de dos marcas: <span class="text-[#b8ff00] font-semibold">Pizza Ok</span> y <span class="text-[#b8ff00] font-semibold">Edilgamal</span>, una empresa que opera en el sector de la construcción. Además de gestionar los canales sociales, también me encargo del desarrollo y mantenimiento de los sitios web de ambas marcas, integrando creatividad y estrategia digital.',
+        conclusion: 'Hoy considero los gráficos y la comunicación visual no solo un trabajo, sino también un medio para expresar creatividad y transmitir mensajes de manera clara, moderna y efectiva.'
+      }
     },
     portfolio: {
       title: 'Mi Portfolio',
@@ -183,7 +199,6 @@ const translations: Translations = {
       food: 'Restauración & Alimentación',
       branding: 'Logo & Marca',
       banners: 'Banners Publicitarios',
-      websites: 'Sitios Web',
       viewProject: 'Ver Proyecto'
     },
     services: {
@@ -232,8 +247,14 @@ const translations: Translations = {
       portfolio: 'Portfolio ansehen'
     },
     about: {
-      title: 'Über mich',
-      description: 'Ich bin ein Designer und Webentwickler mit Leidenschaft für Kreativität und Innovation. Meine Mission ist es, Ideen in einzigartige und fesselnde digitale Erlebnisse zu verwandeln.'
+      title: 'Über Mich',
+      description: 'Ich bin ein Designer und Webentwickler mit einer Leidenschaft für Kreativität und Innovation. Meine Mission ist es, Ideen in einzigartige und ansprechende digitale Erlebnisse zu verwandeln.',
+      bio: {
+        intro: 'Mein Name ist <span class="text-[#b8ff00] font-semibold">Stefano Schifano</span>, ich wurde am 10. Januar 1999 geboren und besuchte das Sprachgymnasium G. Parini in Lissone, wo ich Englisch, Spanisch und Deutsch studierte und in allen drei Sprachen das B1-Niveau erreichte.',
+        passion: 'Seit meiner Jugend habe ich eine starke Leidenschaft für Grafik entwickelt: Ich begann spontan mit Software wie <span class="text-[#b8ff00]">Photoshop</span>, <span class="text-[#b8ff00]">Illustrator</span> und <span class="text-[#b8ff00]">InDesign</span> zu experimentieren, angetrieben von Neugier und dem Wunsch, meinen Ideen Form zu geben. Mit der Zeit hat sich diese Neigung zu einer echten beruflichen Kompetenz entwickelt, die es mir ermöglichte, das, was zunächst ein persönliches Interesse war, in einen Karriereweg zu verwandeln.',
+        work: 'Derzeit verwalte ich die Kommunikation und sozialen Medien von zwei Marken: <span class="text-[#b8ff00] font-semibold">Pizza Ok</span> und <span class="text-[#b8ff00] font-semibold">Edilgamal</span>, einem Unternehmen aus dem Bausektor. Neben der Verwaltung der sozialen Kanäle kümmere ich mich auch um die Entwicklung und Pflege der Websites beider Marken und integriere dabei Kreativität und digitale Strategie.',
+        conclusion: 'Heute betrachte ich Grafik und visuelle Kommunikation nicht nur als Beruf, sondern auch als Mittel, um Kreativität auszudrücken und Botschaften auf klare, moderne und effektive Weise zu übermitteln.'
+      }
     },
     portfolio: {
       title: 'Mein Portfolio',
@@ -244,7 +265,6 @@ const translations: Translations = {
       food: 'Restaurant & Gastronomie',
       branding: 'Logo & Markenbildung',
       banners: 'Werbebanner',
-      websites: 'Websites',
       viewProject: 'Projekt ansehen'
     },
     services: {
@@ -294,7 +314,13 @@ const translations: Translations = {
     },
     about: {
       title: 'À Propos',
-      description: 'Je suis un designer et développeur web passionné par la créativité et l\'innovation. Ma mission est de transformer les idées en expériences numériques uniques et engageantes.'
+      description: 'Je suis un designer et développeur web passionné par la créativité et l\'innovation. Ma mission est de transformer les idées en expériences numériques uniques et engageantes.',
+      bio: {
+        intro: 'Je m\'appelle <span class="text-[#b8ff00] font-semibold">Stefano Schifano</span>, je suis né le 10 janvier 1999 et j\'ai fréquenté le Lycée Linguistique G. Parini de Lissone, où j\'ai étudié l\'anglais, l\'espagnol et l\'allemand, atteignant le niveau B1 dans les trois langues.',
+        passion: 'Depuis l\'adolescence, j\'ai cultivé une forte passion pour les graphiques : j\'ai commencé spontanément à expérimenter avec des logiciels comme <span class="text-[#b8ff00]">Photoshop</span>, <span class="text-[#b8ff00]">Illustrator</span> et <span class="text-[#b8ff00]">InDesign</span>, poussé par la curiosité et le désir de donner forme à mes idées. Avec le temps, cette inclination s\'est transformée en une véritable compétence professionnelle, me permettant de transformer ce qui était initialement un intérêt personnel en un parcours de carrière.',
+        work: 'Je gère actuellement la communication et les réseaux sociaux de deux marques : <span class="text-[#b8ff00] font-semibold">Pizza Ok</span> et <span class="text-[#b8ff00] font-semibold">Edilgamal</span>, une entreprise opérant dans le secteur de la construction. En plus de gérer les canaux sociaux, je m\'occupe également du développement et de la maintenance des sites web des deux marques, intégrant créativité et stratégie numérique.',
+        conclusion: 'Aujourd\'hui, je considère les graphiques et la communication visuelle non seulement comme un travail, mais aussi comme un moyen d\'exprimer la créativité et de transmettre des messages de manière claire, moderne et efficace.'
+      }
     },
     portfolio: {
       title: 'Mon Portfolio',
@@ -305,7 +331,6 @@ const translations: Translations = {
       food: 'Restaurant & Gastronomie',
       branding: 'Logo & Image de Marque',
       banners: 'Bannières Publicitaires',
-      websites: 'Sites Web',
       viewProject: 'Voir le Projet'
     },
     services: {

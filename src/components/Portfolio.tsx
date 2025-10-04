@@ -12,13 +12,11 @@ const Portfolio = () => {
   const { activeCategory, setActiveCategory } = useCategory();
 
   const categories = [
-    { id: 'all', name: t('portfolio', 'allProjects'), icon: '🎨' },
-    { id: 'interior', name: t('portfolio', 'interior'), icon: '🛋️' },
-    { id: 'food', name: t('portfolio', 'food'), icon: '🍕' },
-    { id: 'branding', name: t('portfolio', 'branding'), icon: '🎨' },
-    { id: 'banners', name: t('portfolio', 'banners'), icon: '🎯' },
-    { id: 'websites', name: t('portfolio', 'websites'), icon: '🌐' },
-    { id: 'presentations', name: t('portfolio', 'presentations'), icon: '📊' }
+    { id: 'all', name: t('portfolio', 'all'), icon: '🎨' },
+    { id: 'branding', name: t('portfolio', 'branding'), icon: '🏷️' },
+    { id: 'interior', name: t('portfolio', 'interior'), icon: '🏠' },
+    { id: 'food', name: t('portfolio', 'food'), icon: '🍽️' },
+    { id: 'banners', name: t('portfolio', 'banners'), icon: '📢' },
   ];
 
   const projects = [
