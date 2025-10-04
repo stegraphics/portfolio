@@ -159,7 +159,7 @@ const About: React.FC = () => {
               <div className="p-8 min-h-[320px] flex flex-col justify-center">
                 {showVideo ? (
                   <div className="flex flex-col items-center justify-center h-full w-full">
-                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-center [text-shadow:_0_0_20px_#b8ff00] mb-4">
+                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-center [text-shadow:_0_0_20px_#b8ff00] mb-4 relative z-20">
                       EDIL GAMAL COSTRUZIONI
                     </h2>
                     <p className="text-[#b8ff00] text-sm font-light text-center [text-shadow:_0_0_10px_#b8ff00]">
@@ -188,7 +188,7 @@ const About: React.FC = () => {
                   </div>
                 ) : showContent ? (
                   <div className="animate-fade-in-left">
-                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00]">
+                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00] relative z-20">
                       {t('about', 'title')}
                     </h2>
                     <p
@@ -483,6 +483,8 @@ const About: React.FC = () => {
                     loop
                     muted
                     preload="auto"
+                    playsInline
+                    poster="/images/MOCKUP EDIL GAMAL.jpg"
                     style={{ backgroundColor: 'transparent' }}
                   >
                     <source src="/images/IMG_2048.mp4" type="video/mp4" />
@@ -518,11 +520,11 @@ const About: React.FC = () => {
                         </div>
                         <div className="mt-4 bg-[#363F48] rounded-lg shadow-lg overflow-hidden">
                            <div className="marquee-track flex items-center gap-6 py-4 px-4">
-                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto" />
-                             <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto" />
-                             <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto" />
-                             <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto" />
-                             <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto" />
+                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
                              <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
                              <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
                              <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
@@ -548,6 +550,8 @@ const About: React.FC = () => {
                                loop
                                muted
                                preload="auto"
+                               playsInline
+                               poster="/images/MOMO GRAPHIC.jpg"
                                style={{ backgroundColor: 'transparent' }}
                              >
                                <source src="/images/IMG_4462 (1).mp4" type="video/mp4" />
@@ -556,7 +560,7 @@ const About: React.FC = () => {
                                <img
                                  src="/images/Logo vettoriale Pizza ok.png"
                                  alt="Logo Pizza OK"
-                                 className="absolute top-2 right-12 w-24 md:w-28 lg:w-32 h-auto animate-fade-in-right z-10"
+                                 className="absolute top-2 right-12 w-24 md:w-28 lg:w-32 h-auto animate-fade-in-right z-10 pointer-events-none"
                                  style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.7))' }}
                                />
                              )}
