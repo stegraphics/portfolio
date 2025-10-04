@@ -277,7 +277,7 @@ const Portfolio = () => {
                 <img
                   src={project.images ? project.images[0].url : project.image}
                   alt={project.title}
-                  className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500 rounded-t-xl border-2 border-transparent group-hover:border-[#c0ff00] group-hover:shadow-[0_0_30px_#c0ff00]"
+                  className="w-full h-auto md:h-64 object-contain md:object-cover group-hover:scale-110 transition-transform duration-500 rounded-t-xl border-2 border-transparent group-hover:border-[#c0ff00] group-hover:shadow-[0_0_30px_#c0ff00] max-w-full"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
                   <div className="p-4 flex items-center gap-2 text-white">

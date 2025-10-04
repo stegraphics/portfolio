@@ -195,7 +195,7 @@ const LogoPresentation = () => {
             transition={{ duration: 1 }}
           >
             <video 
-              className="w-full h-full object-cover"
+              className="w-full h-full object-contain md:object-cover"
               autoPlay 
               loop 
               muted
@@ -333,7 +333,7 @@ const LogoPresentation = () => {
             transition={{ duration: 1 }}
           >
             <motion.div 
-              className="grid grid-cols-2 md:grid-cols-3 gap-8 p-8"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 p-8"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.5, duration: 1 }}

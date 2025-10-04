@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useLanguage } from '../App';
 
 const About: React.FC = () => {
@@ -20,6 +20,8 @@ const About: React.FC = () => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [titleFadeOut, setTitleFadeOut] = useState(false);
   const [textVisible, setTextVisible] = useState(true);
+  const [noTransitionBack, setNoTransitionBack] = useState(false);
+  const titleRef = useRef<HTMLHeadingElement | HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (showContent) {
@@ -115,6 +117,8 @@ const About: React.FC = () => {
   }, [showDescription]);
 
   const handleNextClick = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     if (showContent) {
       setShowContent(false);
       setShowNextArrow(false);
@@ -126,9 +130,21 @@ const About: React.FC = () => {
       setShowDescription(false);
       setShowContent(true);
     }
+    // Scroll al titolo su mobile dopo cambio vista
+    window.setTimeout(() => {
+      if (window.innerWidth <= 768 && titleRef.current) {
+        titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+    window.setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const handlePrevClick = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    // Disattiva dissolvenze solo per il click su Indietro
+    setNoTransitionBack(true);
+
     if (showDescription) {
       setShowDescription(false);
       setShowVideo(true);
@@ -136,30 +152,58 @@ const About: React.FC = () => {
       setShowVideo(false);
       setShowContent(true);
     }
+
+    // Su mobile porta all'inizio del titolo
+    if (window.innerWidth <= 768 && titleRef.current) {
+      titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Ripristina le transizioni subito dopo
+    window.setTimeout(() => {
+      setNoTransitionBack(false);
+      setIsTransitioning(false);
+    }, 200);
   };
 
   const handleDescriptionNext = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
     if (!showStrategyText) {
       setShowStrategyText(true);
+      // Scroll al titolo su mobile
+      window.setTimeout(() => {
+        if (window.innerWidth <= 768 && titleRef.current) {
+          titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 200);
+      window.setTimeout(() => setIsTransitioning(false), 300);
       return;
     }
     // Passaggio immediato a PIZZA OK senza fade-out di EDIL
     if (!showPizzaOk) {
       setShowPizzaOk(true);
     }
+    // Scroll al titolo su mobile
+    window.setTimeout(() => {
+      if (window.innerWidth <= 768 && titleRef.current) {
+        titleRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 200);
+    window.setTimeout(() => setIsTransitioning(false), 400);
   };
   return (
     <section id="about" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
-        <div className="max-w-full mx-auto p-12">
+        <div className="max-w-full mx-auto px-4 md:px-12">
           <div className="flex flex-col lg:flex-row items-start gap-10 min-h-[320px]">
             
             {/* Colonna sinistra - contenuto principale */}
-            <div className={`${showVideo ? 'lg:w-3/5' : showContent ? 'lg:w-1/2' : 'lg:w-3/5'} w-full transition-all duration-500 ease-in-out`}>
-              <div className="p-8 min-h-[320px] flex flex-col justify-center">
+            <div className={`${showVideo ? 'lg:w-3/5' : showContent ? 'lg:w-1/2' : 'lg:w-3/5'} w-full transition-all ease-in-out ${noTransitionBack ? 'duration-0' : 'duration-500'}`}>
+              <div className="p-4 md:p-8 min-h-[320px] flex flex-col justify-center">
                 {showVideo ? (
+                  <>
                   <div className="flex flex-col items-center justify-center h-full w-full">
-                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-center [text-shadow:_0_0_20px_#b8ff00] mb-4 relative z-20">
+                    <h2 ref={titleRef} className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-center [text-shadow:_0_0_20px_#b8ff00] mb-4 relative z-20">
                       EDIL GAMAL COSTRUZIONI
                     </h2>
                     <p className="text-[#b8ff00] text-sm font-light text-center [text-shadow:_0_0_10px_#b8ff00]">
@@ -168,7 +212,8 @@ const About: React.FC = () => {
                     <div className="flex justify-center gap-4 mt-6">
                       <button
                         onClick={handlePrevClick}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
+                        disabled={isTransitioning}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-6 py-3 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation"
                       >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -177,7 +222,8 @@ const About: React.FC = () => {
                       </button>
                       <button
                         onClick={handleNextClick}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors durata-300"
+                        disabled={isTransitioning}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-6 py-3 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation"
                       >
                         <span>{t('about', 'buttons.continue') as string}</span>
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,33 +231,205 @@ const About: React.FC = () => {
                         </svg>
                       </button>
                     </div>
+                    </div>
+                    {/* Media mobile vicino al titolo (video EDIL) */}
+                  <div className="block md:hidden w-full mt-6">
+                      <video
+                        key="about-video-mobile"
+                        className={`w-full h-auto rounded-lg transition-opacity ${noTransitionBack ? 'duration-0' : 'duration-500'}`}
+                        autoPlay
+                        loop
+                        muted
+                        preload="auto"
+                        playsInline
+                        poster="/images/MOCKUP EDIL GAMAL.jpg"
+                        style={{ backgroundColor: 'transparent' }}
+                      >
+                        <source src="/images/IMG_2048.mp4" type="video/mp4" />
+                      </video>
+                    <a
+                      href="https://www.edilgamal.it"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-block text-[#b8ff00] uppercase font-bold tracking-wide hover:underline [text-shadow:_0_0_10px_#b8ff00]"
+                    >
+                      SCOPRI IL SITO
+                    </a>
+                    <div className="mt-4 grid grid-cols-3 gap-4 justify-items-center md:hidden">
+                      <img
+                        src="/images/INDUSTRIALE.svg"
+                        alt="Industriale"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                      <img
+                        src="/images/palazzale.svg"
+                        alt="Palazzale"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                      <img
+                        src="/images/pubblico.svg"
+                        alt="Pubblico"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                      <img
+                        src="/images/residenziale.svg"
+                        alt="Residenziale"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                      <img
+                        src="/images/RISTRUTTURAZIONE.svg"
+                        alt="Ristrutturazione"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                      <img
+                        src="/images/alberghiero.svg"
+                        alt="Alberghiero"
+                        className="w-16 h-16 cursor-pointer transition-all duration-300 hover:scale-110"
+                        style={{ filter: 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onTouchStart={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                        }}
+                        onTouchEnd={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                        }}
+                        onClick={(e) => {
+                          e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(11%) sepia(95%) saturate(5946%) hue-rotate(359deg) brightness(105%) contrast(120%) drop-shadow(0 0 6px #ff0000) drop-shadow(0 0 16px #ff0000)';
+                          setTimeout(() => {
+                            e.currentTarget.style.filter = 'brightness(0) saturate(100%) invert(100%) contrast(120%) brightness(115%) drop-shadow(0 0 4px rgba(255,255,255,0.7)) drop-shadow(0 0 10px rgba(255,255,255,0.4))';
+                          }, 300);
+                        }}
+                      />
+                    </div>
                   </div>
+                  </>
                 ) : showContent ? (
                   <div className="animate-fade-in-left">
-                    <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00] relative z-20">
+                    <h2 ref={titleRef} className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00] relative z-20">
                       {t('about', 'title')}
                     </h2>
                     <p
-                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed"
+                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed"
                       dangerouslySetInnerHTML={{ __html: t('about', 'bio.intro') as string }}
                     />
                     <p
-                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
                       dangerouslySetInnerHTML={{ __html: t('about', 'bio.passion') as string }}
                     />
                     <p
-                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
                       dangerouslySetInnerHTML={{ __html: t('about', 'bio.work') as string }}
                     />
                     <p
-                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
                       dangerouslySetInnerHTML={{ __html: t('about', 'bio.conclusion') as string }}
                     />
                     {showNextArrow && (
                       <div className="flex justify-start mt-8 animate-fade-in-up">
                         <button 
                           onClick={handleNextClick}
-                          className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
+                          disabled={isTransitioning}
+                          className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-6 py-3 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation"
                         >
                           <span>{t('about', 'buttons.continue') as string}</span>
                           <svg 
@@ -230,10 +448,18 @@ const About: React.FC = () => {
                         </button>
                       </div>
                     )}
+                    {/* Immagine mobile vicino ai testi (CHI SONO) */}
+                    <div className="block md:hidden flex justify-center mt-6">
+                      <img
+                        src="/images/io.jpeg"
+                        alt="Stefano Schifano"
+                        className="w-64 h-auto rounded-lg object-contain max-w-full"
+                      />
+                    </div>
                   </div>
                 ) : showDescription ? (
                   <div className="flex flex-col items-start justify-start h-full w-full px-8 relative">
-                    <div className={"h-16 " + (showPizzaOk ? "md:h-20 mb-2" : "md:h-28 mb-8")}> 
+                    <div ref={titleRef} className={"h-16 " + (showPizzaOk ? "md:h-20 mb-2" : "md:h-28 mb-8")}> 
                       <h2 className={(showPizzaOk ? 'hidden ' : 'opacity-100 ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left [text-shadow:_0_0_20px_#b8ff00] transition-opacity duration-500 ease-out'}>
                         {t('about', 'projects.edilgamal.title') as string}
                       </h2>
@@ -243,24 +469,120 @@ const About: React.FC = () => {
                     </div>
                     <div className="mt-0">
   {/* Testo originale */}
-  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
      dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.description') as string }}
   />
                       {/* Testo strategia sociale (in dissolvenza) */}
                       {showPizzaOk ? (
-                        <p className={'text-white text-lg font-light text-left max-w-4xl leading-relaxed'}
+                        <p className={'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed'}
                            dangerouslySetInnerHTML={{ __html: t('about', 'projects.pizzaok.description') as string }}
                         />
                       ) : (
-                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
                            dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.strategy') as string }}
                         />
+                      )}
+                    </div>
+                    {/* Media mobile vicino ai testi (EDIL/PIZZA) */}
+                    <div className="block md:hidden mt-6 w-full">
+                      {showPizzaOk ? (
+                        showPizzaOvenIcon ? (
+                          <div className="w-full">
+                            <div className="bg-white rounded-lg overflow-visible md:overflow-hidden">
+                              <img
+                                src="/images/PIZZA ICONE FORNO.svg"
+                                alt="Icona forno Pizza"
+                                className="w-full h-auto block"
+                              />
+                            </div>
+                            <div className="mt-4 bg-[#363F48] rounded-lg overflow-hidden">
+                               <div className="marquee-track flex items-center gap-6 py-4 px-4">
+                                <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                                <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                                <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                                <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                                <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                                <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="relative w-full min-h-[18rem]">
+                            <video
+                              key="pizzaok-video-mobile"
+                              className="w-full h-auto rounded-lg"
+                              autoPlay
+                              loop
+                              muted
+                              preload="auto"
+                              playsInline
+                              poster="/images/MOMO GRAPHIC.jpg"
+                              style={{ backgroundColor: 'transparent' }}
+                            >
+                              <source src="/images/IMG_4462 (1).mp4" type="video/mp4" />
+                            </video>
+                          </div>
+                        )
+                      ) : (
+                        <div className="relative w-full min-h-[18rem]">
+                          {/* Slider EDIL GAMAL mobile */}
+                          <img
+                            src="/images/MOMO GRAPHIC.jpg"
+                            alt="Momo Graphic"
+                            className={(edilImageIndex === 0 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/MOCKUP EDIL GAMAL.jpg"
+                            alt="Mockup Edil Gamal"
+                            className={(edilImageIndex === 1 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/PROVA NEW.jpg"
+                            alt="Prova New"
+                            className={(edilImageIndex === 2 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/PRIMA DOPO.jpg"
+                            alt="Prima Dopo"
+                            className={(edilImageIndex === 3 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/new 1.jpg"
+                            alt="new 1"
+                            className={(edilImageIndex === 4 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/new 2.jpg"
+                            alt="new 2"
+                            className={(edilImageIndex === 5 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/IMG_4245.JPG"
+                            alt="IMG_4245"
+                            className={(edilImageIndex === 6 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/IMG_4246.JPG"
+                            alt="IMG_4246"
+                            className={(edilImageIndex === 7 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                          <img
+                            src="/images/IMG_4248.JPG"
+                            alt="IMG_4248"
+                            className={(edilImageIndex === 8 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
+                          />
+                        </div>
                       )}
                     </div>
                     <div className="flex justify-start gap-4 mt-6">
                       <button
                         onClick={handlePrevClick}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
+                        disabled={isTransitioning}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-6 py-3 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation"
                       >
                         <svg
                           className="w-5 h-5"
@@ -279,7 +601,8 @@ const About: React.FC = () => {
                       </button>
                       <button
                         onClick={handleDescriptionNext}
-                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
+                        disabled={isTransitioning}
+                        className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-6 py-3 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed select-none touch-manipulation"
                       >
                         <span>{t('about', 'buttons.continue') as string}</span>
                         <svg
@@ -376,7 +699,7 @@ const About: React.FC = () => {
                     </div>
                     <video
                       key="about-video"
-                      className="w-full h-auto rounded-lg shadow-lg transition-opacity duration-500"
+                      className={`w-full h-auto rounded-lg transition-opacity ${noTransitionBack ? 'duration-0' : 'duration-500'}`}
                       autoPlay
                       loop
                       muted
@@ -399,7 +722,7 @@ const About: React.FC = () => {
             </div>
 
             {/* Colonna destra */}
-            <div className="lg:w-2/5 w-full transition-all duration-500 ease-in-out">
+            <div className="hidden md:block lg:w-2/5 w-full transition-all duration-500 ease-in-out">
               {showVideo ? (
                 <div className="flex flex-col items-center">
                   <div className="mt-10 md:mt-0 flex items-center justify-center gap-6 md:gap-10 lg:gap-12 mb-6 flex-wrap md:flex-nowrap">
@@ -478,7 +801,7 @@ const About: React.FC = () => {
                   </div>
                   <video
                     key="about-video"
-                    className="w-full h-auto rounded-lg shadow-lg transition-opacity duration-500"
+                    className="w-full h-auto rounded-lg transition-opacity duration-500"
                     autoPlay
                     loop
                     muted
@@ -503,7 +826,7 @@ const About: React.FC = () => {
                   <img
                     src="/images/io.jpeg"
                     alt="Stefano Schifano"
-                    className="w-64 md:w-80 lg:w-96 h-auto rounded-lg shadow-lg"
+                    className="w-72 md:w-80 lg:w-96 h-auto rounded-lg max-w-full"
                   />
                 </div>
               ) : showDescription ? (
@@ -511,25 +834,25 @@ const About: React.FC = () => {
                   {showPizzaOk ? (
                     showPizzaOvenIcon ? (
                       <div className="relative animate-fade-in-right w-[30rem] md:w-[36rem] lg:w-[42rem] xl:w-[48rem]">
-                        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+                        <div className="bg-white rounded-lg overflow-visible md:overflow-hidden">
                           <img
                             src="/images/PIZZA ICONE FORNO.svg"
                             alt="Icona forno Pizza"
                             className="w-full h-auto block"
                           />
                         </div>
-                        <div className="mt-4 bg-[#363F48] rounded-lg shadow-lg overflow-hidden">
-                           <div className="marquee-track flex items-center gap-6 py-4 px-4">
-                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
-                              <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
-                              <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
-                              <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
-                              <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto" loading="eager" decoding="async" fetchpriority="high" />
-                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
-                             <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
-                             <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
-                             <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
-                             <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto" aria-hidden="true" />
+                        <div className="mt-4 bg-[#363F48] rounded-lg overflow-hidden">
+                             <div className="marquee-track flex items-center gap-6 py-4 px-4">
+                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                              <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
+                             <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                             <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                             <img src="/images/PIZZA SALSICCIA.png" alt="Pizza salsiccia" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                             <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
+                             <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
                            </div>
                          </div>
                          <button
@@ -542,10 +865,10 @@ const About: React.FC = () => {
                     ) : (
                       showPizzaVideo ? (
                         <>
-                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
+                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem] min-h-[18rem] md:min-h-[22rem] lg:min-h-[24rem]">
                             <video
                                key="pizzaok-video"
-                               className="animate-fade-in-right w-full h-auto rounded-lg shadow-lg transition-opacity duration-700"
+                               className="animate-fade-in-right w-full h-auto rounded-lg transition-opacity duration-700"
                                autoPlay
                                loop
                                muted
@@ -568,7 +891,7 @@ const About: React.FC = () => {
                         </>
                       ) : (
                         <>
-                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
+                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem] min-h-[18rem] md:min-h-[22rem] lg:min-h-[24rem]">
                             {/* Placeholder invisibile per mantenere l'altezza */}
                             <img
                               src="/images/MOMO GRAPHIC.jpg"
@@ -583,7 +906,7 @@ const About: React.FC = () => {
                       )
                     )
                   ) : (
-                    <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
+                    <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem] min-h-[18rem] md:min-h-[22rem] lg:min-h-[24rem]">
                       {/* Slide 0 - Momo Graphic */}
                       <img
                         src="/images/MOMO GRAPHIC.jpg"
@@ -592,7 +915,7 @@ const About: React.FC = () => {
                         decoding="async"
                         fetchpriority="high"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 0 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 0 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 1 - Mockup Edil Gamal */}
                       <img
@@ -601,7 +924,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 1 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 1 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 2 - Prova New */}
                       <img
@@ -610,7 +933,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 2 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 2 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 3 - Prima Dopo */}
                       <img
@@ -619,7 +942,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 3 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 3 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 4 - new 1 */}
                       <img
@@ -628,7 +951,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 4 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 4 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 5 - new 2 */}
                       <img
@@ -637,7 +960,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 5 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 5 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 6 - IMG_4245 */}
                       <img
@@ -646,7 +969,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 6 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 6 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 7 - IMG_4246 */}
                       <img
@@ -655,7 +978,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 7 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 7 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 8 - IMG_4248 */}
                       <img
@@ -664,7 +987,7 @@ const About: React.FC = () => {
                         loading="lazy"
                         decoding="async"
                         style={{ willChange: 'opacity' }}
-                        className={(edilImageIndex === 8 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        className={(edilImageIndex === 8 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-full object-contain rounded-lg transition-opacity duration-700 ease-out'}
                       />
                     </div>
                   )}
@@ -678,7 +1001,7 @@ const About: React.FC = () => {
                     decoding="async"
                     fetchpriority="high"
                     style={{ willChange: 'opacity' }}
-                    className="w-full h-auto rounded-lg shadow-lg"
+                    className="w-full h-auto rounded-lg"
                   />
                 </div>
               )}
