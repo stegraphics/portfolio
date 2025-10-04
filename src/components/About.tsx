@@ -173,13 +173,13 @@ const About: React.FC = () => {
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                         </svg>
-                        <span>Indietro</span>
+                        <span>{t('about', 'buttons.back') as string}</span>
                       </button>
                       <button
                         onClick={handleNextClick}
                         className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors durata-300"
                       >
-                        <span>Avanti</span>
+                        <span>{t('about', 'buttons.continue') as string}</span>
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
@@ -189,22 +189,31 @@ const About: React.FC = () => {
                 ) : showContent ? (
                   <div className="animate-fade-in-left">
                     <h2 className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00]">
-                      CHI SONO
+                      {t('about', 'title')}
                     </h2>
-                    <p className="text-white text-lg font-light text-left max-w-4xl leading-relaxed">
-                       Ciao, mi chiamo <span className="text-[#b8ff00] font-medium">Stefano Schifano</span>, sono nato il <span className="text-[#b8ff00] font-medium">10 gennaio 1999</span> e ho frequentato il <span className="text-[#b8ff00] font-medium">Liceo Linguistico G. Parini</span> di <span className="text-[#b8ff00] font-medium">Lissone</span>, dove ho studiato <span className="text-[#b8ff00] font-medium">inglese</span>, <span className="text-[#b8ff00] font-medium">spagnolo</span> e <span className="text-[#b8ff00] font-medium">tedesco</span>, raggiungendo il livello <span className="text-[#b8ff00] font-medium">B1</span> in tutte e tre le lingue.
-                       <br /><br />
-                       Fin dall’adolescenza ho sviluppato una forte passione per la <span className="text-[#b8ff00] font-medium">grafica</span>: ho iniziato a sperimentare con programmi come <span className="text-[#b8ff00] font-medium">Photoshop</span>, <span className="text-[#b8ff00] font-medium">Illustrator</span> e <span className="text-[#b8ff00] font-medium">InDesign</span>, spinto dalla curiosità e dal desiderio di trasformare le idee in immagini. Con il tempo questa passione si è consolidata, trasformandosi in una vera e propria <span className="text-[#b8ff00] font-medium">professione</span>.
-                       <br /><br />
-                       Attualmente mi occupo della <span className="text-[#b8ff00] font-medium">gestione social</span> e della <span className="text-[#b8ff00] font-medium">comunicazione digitale</span> di due realtà: <span className="text-[#b8ff00] font-medium">Pizza Ok</span>, brand nel settore della ristorazione, e <span className="text-[#b8ff00] font-medium">Edilgamal</span>, azienda operante nel campo edilizio. Per entrambi seguo non solo i contenuti e le strategie sui social media, ma anche lo <span className="text-[#b8ff00] font-medium">sviluppo</span> e la <span className="text-[#b8ff00] font-medium">cura dei siti web</span>, garantendo <span className="text-[#b8ff00] font-medium">coerenza visiva</span> e <span className="text-[#b8ff00] font-medium">identitaria</span>.
-                    </p>
+                    <p
+                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.intro') as string }}
+                    />
+                    <p
+                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.passion') as string }}
+                    />
+                    <p
+                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.work') as string }}
+                    />
+                    <p
+                      className="text-white text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
+                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.conclusion') as string }}
+                    />
                     {showNextArrow && (
                       <div className="flex justify-start mt-8 animate-fade-in-up">
                         <button 
                           onClick={handleNextClick}
                           className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
                         >
-                          <span>Prosegui</span>
+                          <span>{t('about', 'buttons.continue') as string}</span>
                           <svg 
                             className="w-5 h-5" 
                             fill="none" 
@@ -226,34 +235,26 @@ const About: React.FC = () => {
                   <div className="flex flex-col items-start justify-start h-full w-full px-8 relative">
                     <div className={"h-16 " + (showPizzaOk ? "md:h-20 mb-2" : "md:h-28 mb-8")}> 
                       <h2 className={(showPizzaOk ? 'hidden ' : 'opacity-100 ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left [text-shadow:_0_0_20px_#b8ff00] transition-opacity duration-500 ease-out'}>
-                        EDIL GAMAL COSTRUZIONI
+                        {t('about', 'projects.edilgamal.title') as string}
                       </h2>
                       <h2 className={(showPizzaOk ? 'opacity-100 ' : 'hidden ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left [text-shadow:_0_0_20px_#b8ff00] whitespace-nowrap'}>
-                        PIZZA OK
+                        {t('about', 'projects.pizzaok.title') as string}
                       </h2>
                     </div>
                     <div className="mt-0">
   {/* Testo originale */}
-  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}>
-                        Il sito <span className="text-[#b8ff00] font-medium">Edil Gamal Costruzioni</span> nasce per comunicare <span className="text-[#b8ff00] font-medium">solidità</span>, <span className="text-[#b8ff00] font-medium">energia</span> e <span className="text-[#b8ff00] font-medium">visione</span>, incarnate dal claim <span className="text-[#b8ff00] font-medium">"Costruiamo valore. Progettiamo il futuro"</span>. La palette cromatica, dominata dal <span className="text-[#b8ff00] font-medium">nero</span> e dal <span className="text-[#b8ff00] font-medium">rosso</span>, crea un impatto visivo forte e immediato: il nero trasmette <span className="text-[#b8ff00] font-medium">rigore</span> e <span className="text-[#b8ff00] font-medium">autorevolezza</span>, mentre il rosso aggiunge <span className="text-[#b8ff00] font-medium">passione</span> e <span className="text-[#b8ff00] font-medium">dinamismo</span>, riflettendo l'anima concreta e al tempo stesso ambiziosa dell'azienda. Il design è <span className="text-[#b8ff00] font-medium">compatto</span> e a <span className="text-[#b8ff00] font-medium">pieno schermo</span>, privo di spazi vuoti, pensato per dare un senso di completezza e intensità, mentre la tipografia, lineare e decisa, rafforza il tono <span className="text-[#b8ff00] font-medium">istituzionale</span> e <span className="text-[#b8ff00] font-medium">professionale</span>. Più che un semplice elenco di servizi, il sito si configura come un vero <span className="text-[#b8ff00] font-medium">manifesto visivo</span> dell'identità aziendale: non solo impresa edile, ma <span className="text-[#b8ff00] font-medium">partner affidabile</span> capace di costruire <span className="text-[#b8ff00] font-medium">valore duraturo</span> e guardare avanti, distinguendosi nel settore con una presenza digitale <span className="text-[#b8ff00] font-medium">potente</span>, <span className="text-[#b8ff00] font-medium">evocativa</span> e <span className="text-[#b8ff00] font-medium">memorabile</span>.
-                      </p>
+  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+     dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.description') as string }}
+  />
                       {/* Testo strategia sociale (in dissolvenza) */}
                       {showPizzaOk ? (
-                        <p className={'text-white text-lg font-light text-left max-w-4xl leading-relaxed'}>
-                          Il sito <span className="text-[#b8ff00] font-medium">PIZZA OK</span> si distingue per uno stile moderno e curato, pensato per trasmettere professionalità e passione attraverso un design essenziale ma d’impatto. La palette cromatica utilizza il Pantone 363F48, un grigio scuro elegante e profondo, in armonia con il rosso 984A44, tonalità calda e intensa che richiama la tradizione e l’energia del mondo della pizza. L’inserimento di un cartonato come elemento visivo aggiunge profondità e tridimensionalità alla struttura grafica, creando un effetto realistico e dinamico che valorizza i contenuti e guida l’occhio dell’utente. Nel suo insieme, il design di <span className="text-[#b8ff00] font-medium">PIZZA OK</span> unisce raffinatezza, autenticità e calore visivo, offrendo un’esperienza digitale coerente con l’identità del brand e capace di comunicare al meglio la qualità e la passione che contraddistinguono il marchio. <span className="text-white/80">( sito in fase di sviluppo )</span>
-                        </p>
+                        <p className={'text-white text-lg font-light text-left max-w-4xl leading-relaxed'}
+                           dangerouslySetInnerHTML={{ __html: t('about', 'projects.pizzaok.description') as string }}
+                        />
                       ) : (
-                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}>
-                            Per la comunicazione sui social, l’idea alla base della strategia è quella di mostrare il <span className="text-[#b8ff00] font-medium">prima e dopo</span> dei lavori realizzati.
-                            <br />
-                            Attraverso questo approccio visivo, la ditta vuole mettere in evidenza in modo chiaro e immediato la <span className="text-[#b8ff00] font-medium">qualità</span> delle proprie realizzazioni, la <span className="text-[#b8ff00] font-medium">cura dei dettagli</span> e la <span className="text-[#b8ff00] font-medium">trasformazione</span> che ogni progetto subisce grazie al proprio intervento.
-                            <br />
-                            Il <span className="text-[#b8ff00] font-medium">prima e dopo</span> non rappresenta soltanto un confronto estetico, ma racconta una storia: quella del <span className="text-[#b8ff00] font-medium">cambiamento</span>, della <span className="text-[#b8ff00] font-medium">competenza</span> e della <span className="text-[#b8ff00] font-medium">passione</span> che l’azienda mette in ogni lavoro. È un modo autentico per far comprendere al pubblico il <span className="text-[#b8ff00] font-medium">valore aggiunto</span> che la ditta porta in ogni cantiere, dalla ristrutturazione più piccola al progetto più complesso.
-                            <br />
-                            Allo stesso tempo, ogni contenuto sarà pensato per valorizzare il <span className="text-[#b8ff00] font-medium">brand</span>: il <span className="text-[#b8ff00] font-medium">logo</span>, i <span className="text-[#b8ff00] font-medium">colori</span>, lo <span className="text-[#b8ff00] font-medium">stile comunicativo</span> e l’<span className="text-[#b8ff00] font-medium">immagine aziendale</span> saranno sempre presenti, così da costruire una forte <span className="text-[#b8ff00] font-medium">identità visiva</span> e <span className="text-[#b8ff00] font-medium">riconoscibile</span>.
-                            <br />
-                            L’obiettivo è che ogni post, ogni video o storia sui social trasmetta <span className="text-[#b8ff00] font-medium">professionalità</span>, <span className="text-[#b8ff00] font-medium">fiducia</span> e <span className="text-[#b8ff00] font-medium">solidità</span>.
-                        </div>
+                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+                           dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.strategy') as string }}
+                        />
                       )}
                     </div>
                     <div className="flex justify-start gap-4 mt-6">
@@ -280,7 +281,7 @@ const About: React.FC = () => {
                         onClick={handleDescriptionNext}
                         className="inline-flex items-center gap-2 rounded-full border border-[#b8ff00]/40 bg-black/30 px-5 py-2 text-sm text-white hover:border-[#b8ff00] hover:bg-black/50 transition-colors duration-300"
                       >
-                        <span>Prosegui</span>
+                        <span>{t('about', 'buttons.continue') as string}</span>
                         <svg
                           className="w-5 h-5"
                           fill="none"
@@ -538,36 +539,43 @@ const About: React.FC = () => {
                       </div>
                     ) : (
                       showPizzaVideo ? (
-                        <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
-                          <video
-                             key="pizzaok-video"
-                             className="animate-fade-in-right w-full h-auto rounded-lg shadow-lg transition-opacity duration-700"
-                             autoPlay
-                             loop
-                             muted
-                             preload="auto"
-                             style={{ backgroundColor: 'transparent' }}
-                           >
-                             <source src="/images/IMG_4462 (1).mp4" type="video/mp4" />
-                           </video>
-                           {showPizzaLogo && (
-                             <img
-                               src="/images/Logo vettoriale Pizza ok.png"
-                               alt="Logo Pizza OK"
-                               className="absolute top-2 right-12 w-24 md:w-28 lg:w-32 h-auto animate-fade-in-right z-10"
-                               style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.7))' }}
-                             />
-                           )}
-                        </div>
+                        <>
+                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
+                            <video
+                               key="pizzaok-video"
+                               className="animate-fade-in-right w-full h-auto rounded-lg shadow-lg transition-opacity duration-700"
+                               autoPlay
+                               loop
+                               muted
+                               preload="auto"
+                               style={{ backgroundColor: 'transparent' }}
+                             >
+                               <source src="/images/IMG_4462 (1).mp4" type="video/mp4" />
+                             </video>
+                             {showPizzaLogo && (
+                               <img
+                                 src="/images/Logo vettoriale Pizza ok.png"
+                                 alt="Logo Pizza OK"
+                                 className="absolute top-2 right-12 w-24 md:w-28 lg:w-32 h-auto animate-fade-in-right z-10"
+                                 style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.7))' }}
+                               />
+                             )}
+                          </div>
+                        </>
                       ) : (
-                        <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
-                          {/* Placeholder invisibile per mantenere l'altezza */}
-                          <img
-                            src="/images/MOMO GRAPHIC.jpg"
-                            alt="Momo Graphic"
-                            className="w-full h-auto rounded-lg opacity-0"
-                          />
-                        </div>
+                        <>
+                          <div className="relative w-80 md:w-96 lg:w-[30rem] xl:w-[34rem]">
+                            {/* Placeholder invisibile per mantenere l'altezza */}
+                            <img
+                              src="/images/MOMO GRAPHIC.jpg"
+                              alt="Momo Graphic"
+                              decoding="async"
+                              fetchpriority="low"
+                              className="w-full h-auto rounded-lg opacity-0"
+                            />
+                          </div>
+                          {/* Ripristino: nessun banner e nessun bottone nel placeholder */}
+                        </>
                       )
                     )
                   ) : (
@@ -576,55 +584,83 @@ const About: React.FC = () => {
                       <img
                         src="/images/MOMO GRAPHIC.jpg"
                         alt="Momo Graphic"
-                        className={(edilImageIndex === 0 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="eager"
+                        decoding="async"
+                        fetchpriority="high"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 0 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 1 - Mockup Edil Gamal */}
                       <img
                         src="/images/MOCKUP EDIL GAMAL.jpg"
                         alt="Mockup Edil Gamal"
-                        className={(edilImageIndex === 1 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 1 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 2 - Prova New */}
                       <img
                         src="/images/PROVA NEW.jpg"
                         alt="Prova New"
-                        className={(edilImageIndex === 2 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 2 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 3 - Prima Dopo */}
                       <img
                         src="/images/PRIMA DOPO.jpg"
                         alt="Prima Dopo"
-                        className={(edilImageIndex === 3 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 3 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 4 - new 1 */}
                       <img
                         src="/images/new 1.jpg"
                         alt="new 1"
-                        className={(edilImageIndex === 4 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 4 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 5 - new 2 */}
                       <img
                         src="/images/new 2.jpg"
                         alt="new 2"
-                        className={(edilImageIndex === 5 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 5 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 6 - IMG_4245 */}
                       <img
                         src="/images/IMG_4245.JPG"
                         alt="IMG_4245"
-                        className={(edilImageIndex === 6 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 6 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 7 - IMG_4246 */}
                       <img
                         src="/images/IMG_4246.JPG"
                         alt="IMG_4246"
-                        className={(edilImageIndex === 7 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 7 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                       {/* Slide 8 - IMG_4248 */}
                       <img
                         src="/images/IMG_4248.JPG"
                         alt="IMG_4248"
-                        className={(edilImageIndex === 8 ? 'opacity-100 ' : 'opacity-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
+                        loading="lazy"
+                        decoding="async"
+                        style={{ willChange: 'opacity' }}
+                        className={(edilImageIndex === 8 ? 'opacity-100 visible z-10 ' : 'opacity-0 invisible z-0 ') + 'absolute inset-0 w-full h-auto rounded-lg shadow-lg transition-opacity duration-700 ease-out'}
                       />
                     </div>
                   )}
@@ -634,6 +670,10 @@ const About: React.FC = () => {
                   <img
                     src="/images/MOMO GRAPHIC.jpg"
                     alt="Momo Graphic"
+                    loading="eager"
+                    decoding="async"
+                    fetchpriority="high"
+                    style={{ willChange: 'opacity' }}
                     className="w-full h-auto rounded-lg shadow-lg"
                   />
                 </div>
