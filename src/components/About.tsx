@@ -193,13 +193,13 @@ const About: React.FC = () => {
   };
   return (
     <section id="about" className="py-20 bg-transparent">
-      <div className="container mx-auto px-4">
-        <div className="max-w-full mx-auto px-4 md:px-12">
+      <div className="container mx-auto px-2 md:px-4">
+        <div className="max-w-full mx-auto px-2 md:px-12">
           <div className="flex flex-col lg:flex-row items-start gap-10 min-h-[320px]">
             
             {/* Colonna sinistra - contenuto principale */}
             <div className={`${showVideo ? 'lg:w-3/5' : showContent ? 'lg:w-1/2' : 'lg:w-3/5'} w-full transition-all ease-in-out ${noTransitionBack ? 'duration-0' : 'duration-500'}`}>
-              <div className="p-4 md:p-8 min-h-[320px] flex flex-col justify-center">
+              <div className="p-2 md:p-8 min-h-[320px] flex flex-col justify-center">
                 {showVideo ? (
                   <>
                   <div className="flex flex-col items-center justify-center h-full w-full">
@@ -405,25 +405,27 @@ const About: React.FC = () => {
                   </>
                 ) : showContent ? (
                   <div className="animate-fade-in-left">
-                    <h2 ref={titleRef} className="text-4xl md:text-6xl font-bold text-[#b8ff00] text-left mb-6 [text-shadow:_0_0_20px_#b8ff00] relative z-20">
+                    <h2 ref={titleRef} className="text-3xl md:text-6xl font-bold text-[#b8ff00] text-left mb-4 md:mb-6 [text-shadow:_0_0_20px_#b8ff00] relative z-20">
                       {t('about', 'title')}
                     </h2>
-                    <p
-                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed"
-                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.intro') as string }}
-                    />
-                    <p
-                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
-                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.passion') as string }}
-                    />
-                    <p
-                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
-                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.work') as string }}
-                    />
-                    <p
-                      className="text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed mt-4"
-                      dangerouslySetInnerHTML={{ __html: t('about', 'bio.conclusion') as string }}
-                    />
+                    <div className="space-y-2 md:space-y-4 max-h-[40vh] md:max-h-[52vh] overflow-y-auto pr-2 -mr-2 thin-scrollbar hide-scrollbar-desktop">
+                      <p
+                        className="text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: t('about', 'bio.intro') as string }}
+                      />
+                      <p
+                        className="text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed md:mt-4"
+                        dangerouslySetInnerHTML={{ __html: t('about', 'bio.passion') as string }}
+                      />
+                      <p
+                        className="text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed md:mt-4"
+                        dangerouslySetInnerHTML={{ __html: t('about', 'bio.work') as string }}
+                      />
+                      <p
+                        className="text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed md:mt-4"
+                        dangerouslySetInnerHTML={{ __html: t('about', 'bio.conclusion') as string }}
+                      />
+                    </div>
                     {showNextArrow && (
                       <div className="flex justify-start mt-8 animate-fade-in-up">
                         <button 
@@ -458,27 +460,27 @@ const About: React.FC = () => {
                     </div>
                   </div>
                 ) : showDescription ? (
-                  <div className="flex flex-col items-start justify-start h-full w-full px-8 relative">
+                  <div className="flex flex-col items-start justify-start h-full w-full px-3 md:px-8 relative">
                     <div ref={titleRef} className={"h-16 " + (showPizzaOk ? "md:h-20 mb-2" : "md:h-28 mb-8")}> 
-                      <h2 className={(showPizzaOk ? 'hidden ' : 'opacity-100 ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left [text-shadow:_0_0_20px_#b8ff00] transition-opacity duration-500 ease-out'}>
+                      <h2 className={(showPizzaOk ? 'hidden ' : 'opacity-100 ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left md:text-left [text-shadow:_0_0_20px_#b8ff00] transition-opacity duration-500 ease-out'}>
                         {t('about', 'projects.edilgamal.title') as string}
                       </h2>
-                      <h2 className={(showPizzaOk ? 'opacity-100 ' : 'hidden ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left [text-shadow:_0_0_20px_#b8ff00] whitespace-nowrap'}>
+                      <h2 className={(showPizzaOk ? 'opacity-100 ' : 'hidden ') + 'text-4xl md:text-6xl font-bold text-[#b8ff00] text-left md:text-left [text-shadow:_0_0_20px_#b8ff00] whitespace-nowrap'}>
                         {t('about', 'projects.pizzaok.title') as string}
                       </h2>
                     </div>
-                    <div className="mt-0">
+                    <div className="mt-0 max-h-[36vh] md:max-h-[46vh] overflow-y-auto pr-2 -mr-2 space-y-2 md:space-y-4 thin-scrollbar hide-scrollbar-desktop">
   {/* Testo originale */}
-  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+  <p className={(showStrategyText ? 'hidden ' : 'opacity-100 ') + 'text-white text-[15px] md:text-lg font-light text-left max-w-[96vw] md:max-w-4xl leading-snug md:leading-relaxed transition-opacity duration-700 ease-out'}
      dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.description') as string }}
   />
                       {/* Testo strategia sociale (in dissolvenza) */}
                       {showPizzaOk ? (
-                        <p className={'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed'}
+                        <p className={'text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed'}
                            dangerouslySetInnerHTML={{ __html: t('about', 'projects.pizzaok.description') as string }}
                         />
                       ) : (
-                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-base md:text-lg font-light text-left max-w-4xl leading-relaxed transition-opacity duration-700 ease-out'}
+                        <div className={((showStrategyText && textVisible) ? 'opacity-100 ' : 'opacity-0 hidden ') + 'text-white text-[15px] md:text-lg font-light text-left max-w-[98vw] md:max-w-4xl leading-snug md:leading-relaxed transition-opacity duration-700 ease-out'}
                            dangerouslySetInnerHTML={{ __html: t('about', 'projects.edilgamal.strategy') as string }}
                         />
                       )}
@@ -488,14 +490,14 @@ const About: React.FC = () => {
                       {showPizzaOk ? (
                         showPizzaOvenIcon ? (
                           <div className="w-full">
-                            <div className="bg-white rounded-lg overflow-visible md:overflow-hidden">
+                            <div className="bg-white rounded-none md:rounded-lg overflow-hidden -mx-3 md:mx-0 p-0 md:p-0">
                               <img
                                 src="/images/PIZZA ICONE FORNO.svg"
                                 alt="Icona forno Pizza"
-                                className="w-full h-auto block"
+                                className="w-[110vw] md:w-full h-auto block -ml-5 md:ml-0"
                               />
                             </div>
-                            <div className="mt-4 bg-[#363F48] rounded-lg overflow-hidden">
+                            <div className="mt-4 bg-[#363F48] rounded-lg overflow-hidden thin-scrollbar hide-scrollbar-desktop">
                                <div className="marquee-track flex items-center gap-6 py-4 px-4">
                                 <img src="/images/PIZZA primavera.png" alt="Pizza primavera" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
                                 <img src="/images/PIZZA SALAME.png" alt="Pizza salame" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" loading="eager" decoding="async" fetchpriority="high" />
@@ -508,6 +510,9 @@ const About: React.FC = () => {
                                 <img src="/images/PIZZA TONNO E OLIVE.png" alt="Pizza tonno e olive" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
                                 <img src="/images/PIZZA WURSTEL.png" alt="Pizza wurstel" className="h-28 md:h-32 lg:h-40 w-auto object-contain max-w-full" aria-hidden="true" />
                               </div>
+                            </div>
+                            <div className="block md:hidden flex justify-center mt-3">
+                              <button onClick={() => setShowMenuModal(true)} className="text-[#b8ff00] uppercase font-bold tracking-wide hover:text-white transition-colors">SCOPRI MENÙ</button>
                             </div>
                           </div>
                         ) : (

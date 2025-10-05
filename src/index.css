@@ -257,3 +257,28 @@ html {
     transform: rotateY(0deg);
   }
 }
+
+/* Scrollbar visibility rules: hidden on desktop, thin on mobile */
+@media (min-width: 768px) {
+  .hide-scrollbar-desktop {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+  .hide-scrollbar-desktop::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
+  }
+}
+
+@media (max-width: 767px) {
+  .thin-scrollbar::-webkit-scrollbar {
+    height: 3px;
+    width: 3px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: #c0ff00;
+    border-radius: 2px;
+  }
+}
